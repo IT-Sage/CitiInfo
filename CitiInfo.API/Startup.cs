@@ -37,6 +37,9 @@ namespace CitiInfo.API
         {
             // writes to the console of web browser
             loggerFactory.AddConsole();
+
+            loggerFactory.AddDebug();
+
             if (env.IsDevelopment())
             {
                 // adds the developer exeption page middleware to the request pipeline
