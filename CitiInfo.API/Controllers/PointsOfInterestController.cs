@@ -23,7 +23,7 @@ namespace CitiInfo.API.Controllers
             return Ok(city.PointsOfInterest);
         }
 
-        [HttpGet("{cityId}/pointsOfInterest/{id}", Name = "GetPointOfInterest")]
+        [HttpGet("{cityId}/pointsofinterest/{id}", Name = "GetPointOfInterest")]
         public IActionResult GetPointOfInterest(int cityId, int id)
         {
             var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
@@ -44,11 +44,22 @@ namespace CitiInfo.API.Controllers
         }
 
         [HttpPost("{cityId}/pointsofinterest")]
-        public IActionResult CreatePointOfInterest(int cityId, [FromBody] PointOfInterestForCreationDto pointOfInterest)
+        public IActionResult CreatePointOfInterest(int cityId,
+             [FromBody] PointOfInterestForCreationDto pointOfInterest)
         {
             if (pointOfInterest == null)
             {
                 return BadRequest();
+            }
+
+            if (pointOfInterest.Description == pointOfInterest.Name)
+            {
+                ModelState.AddModelError("Description", "The provided description should be different from the name.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
             }
 
             var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
