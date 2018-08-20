@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using NLog.Extensions.Logging;
 
 namespace CitiInfo.API
 {
@@ -40,6 +41,10 @@ namespace CitiInfo.API
 
             loggerFactory.AddDebug();
 
+            // possibilities of adding NLogProvider
+            //loggerFactory.AddProvider(new NLog.Extensions.Logging.NLogLoggerProvider());
+            loggerFactory.AddNLog();
+
             if (env.IsDevelopment())
             {
                 // adds the developer exeption page middleware to the request pipeline
@@ -52,7 +57,7 @@ namespace CitiInfo.API
 
             //shows custom page instead of blank
             app.UseStatusCodePages();
-
+             
             app.UseMvc();
 
             //app.Run((context) =>
