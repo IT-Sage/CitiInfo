@@ -76,7 +76,14 @@ namespace CitiInfo.API
 
             //shows custom page instead of blank
             app.UseStatusCodePages();
-             
+
+            AutoMapper.Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<City, Models.CityWithoutPointsOfInterestDto>();
+                cfg.CreateMap<City, Models.CityDto>();
+                cfg.CreateMap<PointOfInterest, Models.PointOfInterestDto>();
+            });
+
             app.UseMvc();
 
             //app.Run((context) =>
